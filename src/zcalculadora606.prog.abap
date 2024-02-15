@@ -53,8 +53,6 @@ START-OF-SELECTION.
 
   PERFORM INSERIRCALCULO USING OPSIMBOLOBANCO P_VALOR1 P_VALOR2 RESULTADO USUARIOSISTEMA OPERACAOCONCATENADA OPERACAO.
                                                                          " Insere o cálculo no banco de dados
-  PERFORM IMPRIMIR_RESULTADO USING RESULTADO.    " Imprime o resultado na tela
-
   PERFORM ENVIAREMAIL USING USUARIOSISTEMA OPERACAO OPERACAOCONCATENADA USUARIOEMAIL.    " Envia e-mail com informações relevantes
 
   PERFORM OBTEROPERACAO USING OPERACAO OPSIMBOLOBANCO.    " Obtém novamente o símbolo da operação no banco
