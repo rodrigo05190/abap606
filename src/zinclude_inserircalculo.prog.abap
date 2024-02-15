@@ -1,0 +1,31 @@
+*&---------------------------------------------------------------------*
+*& Include          ZINCLUDE_INSERIRCALCULO
+*&---------------------------------------------------------------------*
+
+DATA: LT_CALC TYPE TABLE OF ZCALTAB606,
+      LS_CALC TYPE ZCALTAB606,
+      ID      TYPE I,
+      NEWID   TYPE I.
+
+FORM INSERIRCALCULO USING OPSIMBOLOBANCO P_VALOR1 P_VALOR2 RESULTADO USUARIOSISTEMA OPERACAOCONCATENADA OPERACAO.
+  IF OPSIMBOLOBANCO EQ '/'.
+    OPSIMBOLOBANCO = '÷'.
+  ENDIF.
+  OPERACAOCONCATENADA =  P_VALOR1 && ' ' && TO_LOWER( OPSIMBOLOBANCO ) && ' ' && P_VALOR2 && '=' && RESULTADO.
+
+  SELECT SINGLE MAX( ID ) INTO ID FROM ZCALTAB606.
+
+  NEWID = ID + 1.
+
+  LS_CALC-ID = NEWID.
+  LS_CALC-OPERACAOID = OPERACAO.
+  LS_CALC-USUARIO = USUARIOSISTEMA.
+  LS_CALC-CALCULO = OPERACAOCONCATENADA.
+* Adicionar a estrutura à tabela interna
+  APPEND LS_CALC TO LT_CALC.
+* Inserir os dados na tabela.
+  LOOP AT lt_CALC INTO ls_CALC.
+    INSERT ZCALTAB606 FROM ls_CALC.
+  ENDLOOP.
+
+ENDFORM.
